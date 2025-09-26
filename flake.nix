@@ -28,6 +28,7 @@
       pkgs.jdk17
       pkgs.chromium
       pkgs.killall
+      pkgs.dbus
     ];
 
     shellHook = ''
