@@ -37,7 +37,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
       }
     }
 
-    if (mounted) {
+    if (mounted) { //we saw in debug mode : we got api list and after isloading false 
       setState(() {
         isLoading = false;
       });
