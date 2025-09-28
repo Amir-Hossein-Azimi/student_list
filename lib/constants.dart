@@ -1,0 +1,1 @@
+final String baseUrl = "https://68d651f4c2a1754b426a44a2.mockapi.io/AMHOAZ/api/v1";
