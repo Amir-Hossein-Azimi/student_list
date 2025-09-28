@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:dio/dio.dart';
 import 'package:student_list/constants.dart';
 import 'package:student_list/models/user.dart';
