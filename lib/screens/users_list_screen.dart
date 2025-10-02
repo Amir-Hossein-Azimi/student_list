@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_list/models/user.dart';
 import 'package:student_list/services/api_service.dart';
+import 'package:student_list/widgets/user_list_item.dart';
 
 class UsersListScreen extends StatefulWidget {
   const UsersListScreen({super.key});
@@ -20,7 +21,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
     loadUsers();
   }
 
-  loadUsers() async {
+  Future<void> loadUsers() async {
     //mounted for check user in this screen or not
     if (!mounted) return; //no get or send data from or to api
 
@@ -37,7 +38,8 @@ class _UsersListScreenState extends State<UsersListScreen> {
       }
     }
 
-    if (mounted) { //we saw in debug mode : we got api list and after isloading false 
+    if (mounted) {
+      //we saw in debug mode : we got api list and after isloading false
       setState(() {
         isLoading = false;
       });
@@ -46,6 +48,72 @@ class _UsersListScreenState extends State<UsersListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    final double bottomPadding = MediaQuery.of(context).padding.bottom;
+
+    return Scaffold(
+      floatingActionButton: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(bottom: 16.0),
+          child: FloatingActionButton.extended(
+            onPressed: () {},
+            icon: Icon(Icons.add),
+            label: Text("Add Student"),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : users.isEmpty
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.people_outline, size: 80, color: Colors.grey[400]),
+                  SizedBox(height: 16),
+                  Text(
+                    'no users found',
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'Tap the + button to add a new student',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ),
+            )
+          : RefreshIndicator(
+              // pull to refresh
+              onRefresh: loadUsers,
+              child: CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    title: Text('Student_List'),
+                    floating: true,
+                    pinned: false,
+                    snap: true,
+                  ),
+                  SliverPadding(
+                    padding: EdgeInsetsGeometry.only(
+                      bottom: bottomPadding + 100,
+                    ),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        final user = users[index];
+                        return UserListItem(
+                          user: user,
+                          onTap: () {},
+                          onDismissed: () {},
+                        );
+                      }, childCount: users.length),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+    );
   }
 }
