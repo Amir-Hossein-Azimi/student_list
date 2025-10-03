@@ -33,9 +33,12 @@ class _UsersListScreenState extends State<UsersListScreen> {
       users = await apiService.getUsers();
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text("Error fetching data: $e")));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Error fetching data: $e"),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
     }
 
@@ -55,6 +58,33 @@ class _UsersListScreenState extends State<UsersListScreen> {
     if (result == true) {
       loadUsers();
       //we dont use await because we dont use it after load
+    }
+  }
+
+  Future<void> deleteUser(String id) async {
+    if (!mounted) return;
+
+    try {
+      await apiService.deleteUser(id);
+      //why use await? because i have to do sth
+      //await loadUsers(); optional
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('delete user successfuly'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error deleting user : $e '),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
@@ -122,7 +152,9 @@ class _UsersListScreenState extends State<UsersListScreen> {
                           onTap: () {
                             _navigateAndRefresh(UserEditScreen(user: user));
                           },
-                          onDismissed: () {},
+                          onDismissed: () {
+                            deleteUser(user.id);
+                          },
                         );
                       }, childCount: users.length),
                     ),
