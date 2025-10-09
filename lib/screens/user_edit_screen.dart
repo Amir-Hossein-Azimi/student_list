@@ -65,10 +65,12 @@ class _UserEditScreenState extends State<UserEditScreen> {
           ),
         );
       }
-      if (mounted) {
-        isLoading = false;
-      }
     }
+    // if (mounted) {
+    //   setState(() {
+    //     isLoading = false;
+    //   });
+    // }
   }
 
   @override
@@ -126,11 +128,12 @@ class _UserEditScreenState extends State<UserEditScreen> {
                 ),
                 const SizedBox(height: 32),
                 ElevatedButton(
-                  onPressed: isLoading ? null : saveUser,
+                  onPressed: isLoading ? () {} : saveUser,
                   child: isLoading
                       ? const SizedBox(
-                          height: 24,
-                          width: 24,
+                          //for loading not big in button 
+                          height: 19,
+                          width: 19,
                           child: CircularProgressIndicator(
                             strokeWidth: 3,
                             color: Colors.white,
