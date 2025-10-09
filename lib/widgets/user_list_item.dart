@@ -74,6 +74,8 @@ class UserListItem extends StatelessWidget {
           },
         );
       },
+      //important for delete
+      onDismissed: (direction) => onDismissed(),
       child: Card(
         child: ListTile(
           contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),

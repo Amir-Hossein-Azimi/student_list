@@ -67,7 +67,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
     try {
       await apiService.deleteUser(id);
       //why use await? because i have to do sth
-      //await loadUsers(); optional
+      //await loadUsers(); //optional
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
