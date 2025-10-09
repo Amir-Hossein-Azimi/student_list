@@ -18,6 +18,15 @@ class _UserEditScreenState extends State<UserEditScreen> {
   saveUser() {}
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.user != null) {
+      nameController.text = widget.user!.name;
+      cityController.text = widget.user!.city;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

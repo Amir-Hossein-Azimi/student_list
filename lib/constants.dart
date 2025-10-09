@@ -34,4 +34,21 @@ ThemeData appTheme = ThemeData(
     foregroundColor: whiteColor,
     backgroundColor: primaryColor,
   ),
+  inputDecorationTheme: InputDecorationTheme(
+    fillColor: whiteColor,
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide.none,
+    ),
+    prefixIconColor: primaryColor,
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: primaryColor,
+      foregroundColor: whiteColor,
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+    ),
+  ),
 );
