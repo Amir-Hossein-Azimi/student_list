@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_list/models/user.dart';
+import 'package:student_list/services/api_service.dart';
 
 class UserEditScreen extends StatefulWidget {
   final User? user;
@@ -14,8 +15,61 @@ class _UserEditScreenState extends State<UserEditScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   bool isLoading = false;
+  final ApiService apiService = ApiService();
 
-  saveUser() {}
+  Future<void> saveUser() async {
+    if (!formKey.currentState!.validate() || !mounted) return;
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      if (widget.user == null) {
+        //add student
+        await apiService.createUser(nameController.text, cityController.text);
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("New Student added successfully!"),
+              backgroundColor: Colors.green,
+            ),
+          );
+        }
+        if (mounted) {
+          Navigator.pop(context, true);
+        }
+      } else {
+        //edit student
+        await apiService.updateUser(
+          widget.user!.id,
+          nameController.text,
+          cityController.text,
+        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("User Information updated!"),
+              backgroundColor: Colors.green,
+            ),
+          );
+        }
+        if (mounted) {
+          Navigator.pop(context, true);
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Error saving data : $e"),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+      if (mounted) {
+        isLoading = false;
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -94,5 +148,13 @@ class _UserEditScreenState extends State<UserEditScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    //for memory management
+    nameController.dispose();
+    cityController.dispose();
+    super.dispose();
   }
 }
