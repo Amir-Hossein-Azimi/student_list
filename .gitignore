@@ -49,3 +49,7 @@ app.*.map.json
 
 # File containing Keystore properties
 key.properties
+
+# Nix/direnv generated files
+/result
+.direnv/
